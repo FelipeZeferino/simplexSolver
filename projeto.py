@@ -2,8 +2,8 @@ import streamlit as st
 from pulp import LpMaximize, LpMinimize, LpProblem, LpVariable, lpSum, value, LpStatus
 
 
-st.set_page_config(page_title="Simplex com Análise de RHS", layout="centered")
-st.title("Simplex + Análise de Recursos (RHS)")
+st.set_page_config(page_title="Simplex", layout="centered")
+st.title("Simplex + Análise de Recursos")
 
 st.header("1️⃣ Definir o Modelo")
 
@@ -55,9 +55,9 @@ if st.button("Resolver"):
     for idx, (coefs, op, rhs) in enumerate(constraints):
         expr = lpSum([coefs[i] * vars[i] for i in range(num_vars)])
         if op == "≤":
-            model += expr <= rhs, f"rest_{idx+1}"
+            model += expr <= rhs, f"restrição {idx+1}"
         elif op == "≥":
-            model += expr >= rhs, f"rest_{idx+1}"
+            model += expr >= rhs, f"restrição {idx+1}"
 
     model.solve()
 
@@ -116,9 +116,9 @@ if "saved_model" in st.session_state:
             coefs, op, _ = constraint
             expr = lpSum([coefs[i] * vars[i] for i in range(num_vars)])
             if op == "≤":
-                model += expr <= rhs_value, f"rest_{idx+1}"
+                model += expr <= rhs_value, f"restrição {idx+1}"
             elif op == "≥":
-                model += expr >= rhs_value, f"rest_{idx+1}"
+                model += expr >= rhs_value, f"restrição {idx+1}"
 
         model.solve()
 
